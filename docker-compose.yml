@@ -1,0 +1,44 @@
+version: '3'
+
+networks:
+    chr1sbot:
+        external: false
+
+volumes:
+    chr1sbot-postgres:
+        driver: local
+
+services:
+    bot:
+        build: .
+        environment:
+            - PG_DSN=postgres://chris:justapassword@db:5432/bot
+            - LAVA_HOST=lavalink
+            - LAVA_PORT=2333
+            - LAVA_PASS=justapassword
+        restart: unless-stopped
+        networks:
+            - chr1sbot
+        depends_on:
+            - db
+            - lavalink
+        volumes:
+            - .:/app
+    db:
+        image: postgres
+        restart: unless-stopped
+        environment:
+            - POSTGRES_USER=chris
+            - POSTGRES_PASSWORD=justapassword
+            - POSTGRES_DB=bot
+        networks:
+            - chr1sbot
+        volumes:
+            - chr1sbot-postgres:/var/lib/postgresql/data
+    lavalink:
+        image: fredboat/lavalink:dev
+        restart: unless-stopped
+        networks:
+            - chr1sbot
+        volumes:
+            - ./application.yml:/opt/Lavalink/application.yml

@@ -1,0 +1,12 @@
+jishaku
+psutil
+uvloop
+cchardet
+aiodns
+asyncpg
+wavelink
+asyncpg
+sentry-sdk
+async-cse
+git+https://github.com/Rapptz/discord-ext-menus
+git+https://github.com/Rapptz/discord.py@master#egg=discord.py[voice]
